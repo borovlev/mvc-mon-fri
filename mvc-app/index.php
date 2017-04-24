@@ -1,6 +1,9 @@
 <?php
 error_reporting(E_ALL);
 
+define('DS', DIRECTORY_SEPARATOR);
+define('ROOT', __DIR__ . DS);
+define('VIEW_DIR', ROOT . 'View' . DS);
 
 spl_autoload_register(function($className) {
     
@@ -19,6 +22,8 @@ spl_autoload_register(function($className) {
 
 $request = new Request();
 $route = $request->get('route', 'default/index'); // $_GET['route']
+
+// todo: защита от :) если нету слеша в значении
 $route = explode('/', $route);
 
 $controller = ucfirst($route[0]) . 'Controller';
@@ -30,7 +35,8 @@ if (!method_exists($controller, $action)) {
     throw new Exception("{$action} not found");
 }
 
-$controller->$action();
+$content = $controller->$action();
 
+require VIEW_DIR . 'layout.phtml';
 
 var_dump($controller, $action);
