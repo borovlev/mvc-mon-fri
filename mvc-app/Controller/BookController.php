@@ -1,5 +1,9 @@
 <?php
 
+namespace Controller;
+
+use Library\Controller;
+
 class BookController extends Controller
 {
     public function indexAction()
