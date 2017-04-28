@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Час створення: Бер 17 2017 р., 18:54
--- Версія сервера: 5.5.53-0ubuntu0.14.04.1
--- Версія PHP: 5.5.9-1ubuntu4.20
+-- Час створення: Квт 28 2017 р., 17:53
+-- Версія сервера: 5.5.54-0ubuntu0.14.04.1
+-- Версія PHP: 5.5.9-1ubuntu4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -169,6 +169,31 @@ CREATE TABLE IF NOT EXISTS `book_author` (
   KEY `author_id` (`author_id`,`book_id`),
   KEY `book_id` (`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблиці `feedback`
+--
+
+CREATE TABLE IF NOT EXISTS `feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `author` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Дамп даних таблиці `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `author`, `email`, `message`, `created`) VALUES
+(1, 'qwe', 'qweqwe', 'fghfgh', '2017-04-28 17:27:10'),
+(2, 'mike', 'miek@gmail.com', 'gello', '2017-04-28 17:49:04'),
+(3, 'gdfg', 'hgjgh@ghj', 'ghjghjghj', '2017-04-28 17:49:19'),
+(4, 'ghj', '', '', '2017-04-28 17:49:46');
 
 -- --------------------------------------------------------
 
