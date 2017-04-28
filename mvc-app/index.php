@@ -6,30 +6,25 @@ define('ROOT', __DIR__ . DS);
 define('VIEW_DIR', ROOT . 'View' . DS);
 
 spl_autoload_register(function($className) {
+    $file = ROOT . str_replace('\\', DS, "{$className}.php");
     
-    $file = "{$className}.php";
-    
-    if (file_exists("Library/$file")) {
-        require_once "Library/$file";
-    } elseif (file_exists("Controller/$file")) {
-        require_once "Controller/$file";
-    } else {
-        throw new Exception("{$file} not found");
+    if (!file_exists($file)) {
+        throw new \Exception("{$file} not found");
     }
     
-    
+    require_once $file;
 });
 
-$request = new Request();
+$request = new \Library\Request();
 $route = $request->get('route', 'default/index'); // $_GET['route']
 
 // todo: защита от :) если нету слеша в значении
 $route = explode('/', $route);
 
-$controller = ucfirst($route[0]) . 'Controller';
+$controller = 'Controller\\' . ucfirst($route[0]) . 'Controller';
 $action = $route[1] . 'Action';
 
-$controller = new $controller();
+$controller = new $controller(); // Controller\DefaultController
 
 if (!method_exists($controller, $action)) {
     throw new Exception("{$action} not found");
