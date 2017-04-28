@@ -5,8 +5,9 @@ namespace Library;
 abstract class Controller
 {
     // todo: make as public static function
-    public function render($view)
+    public function render($view, array $args = [])
     {
+        extract($args);
         $dir = str_replace(['\\', 'Controller'], '', get_class($this));
         $file = VIEW_DIR . $dir . DS . $view;
         
