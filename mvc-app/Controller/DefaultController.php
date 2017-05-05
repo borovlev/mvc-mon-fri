@@ -7,7 +7,6 @@ use Model\Form\FeedbackForm;
 use Model\FeedbackModel;
 use Library\Request;
 use Library\Session;
-use Library\Router;
 
 class DefaultController extends Controller
 {
@@ -30,7 +29,7 @@ class DefaultController extends Controller
                 ]);
                 
                 Session::setFlash('Feedback sent');
-                Router::redirect('/index.php?route=default/feedback');
+                $this->get('router')->redirect('/index.php?route=default/feedback');
             }
             
             Session::setFlash('Fill the fields properly');
