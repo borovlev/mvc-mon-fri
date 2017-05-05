@@ -4,7 +4,7 @@ namespace Model;
 
 use Library\DbConnection;
 
-class BookModel
+class BookRepository
 {
     public function findAll()
     {
