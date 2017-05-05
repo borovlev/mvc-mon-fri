@@ -35,8 +35,4 @@ if (!method_exists($controller, $action)) {
     throw new Exception("{$action} not found");
 }
 
-$content = $controller->$action($request);
-
-require VIEW_DIR . 'layout.phtml';
-
-var_dump($controller, $action);
+echo $controller->$action($request);
