@@ -21,8 +21,8 @@ class DefaultController extends Controller
         
         if ($request->isPost()) {
             if ($form->isValid()) {
-                $model = new FeedbackRepository();
-                $model->save([
+                $repository = $this->get('repository')->getRepository('Feedback');
+                $repository->save([
                     'author' => $form->author,
                     'email' => $form->email,
                     'message' => $form->message,

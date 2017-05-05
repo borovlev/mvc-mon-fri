@@ -20,6 +20,7 @@ spl_autoload_register(function($className) {
 $request = new \Library\Request();
 $container = new \Library\Container();
 $container->set('router', new \Library\Router());
+$container->set('repository', new \Library\RepositoryManager());
 
 $route = $request->get('route', 'default/index'); // $_GET['route']
 
