@@ -1,0 +1,9 @@
+<h1>Feedback</h1>
+
+<form method='post'>
+    <p id="warning"><?php echo $form->flashMessage;?></p>
+   <p> <input type="text" name="author" value="<?=$form->author ?>"/></p>
+   <p> <input type="email" name="email" value="<?=$form->email ?>"</p>
+    <p> <textarea name="message"><?=$form->message ?></textarea></p>
+    <p> <button>Go</button></p>
+</form>

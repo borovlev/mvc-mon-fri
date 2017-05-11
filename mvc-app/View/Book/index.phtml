@@ -1,0 +1,12 @@
+<h1>Books</h1>
+
+<hr>
+author: <?=$author?>
+
+<br>
+
+this is list of books: <br>
+<?php foreach ($books as $book) : ?>
+    <pre>
+    <?=print_r($book)?> <br></pre>
+<?php endforeach ?>
