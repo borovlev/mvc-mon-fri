@@ -3,19 +3,32 @@
 namespace Controller;
 
 use Library\Controller;
+use Library\Request;
+use Library\Pagination\Pagination;
 use Model\BookRepository;
 
 class BookController extends Controller
 {
-    public function indexAction()
+    const BOOKS_PER_PAGE = 9;
+    
+    public function indexAction(Request $request)
     {
-        $model = $this->get('repository')->getRepository('Book');
-        $books = $model->findAll();
+        $currentPage = $request->get('page', 1);
+       
+        $repository = $this->get('repository')->getRepository('Book');
+        $count = $repository->count();
+        $books = $repository->findAllActive(($currentPage - 1) * self::BOOKS_PER_PAGE, self::BOOKS_PER_PAGE);
         
-        $author = 'King';
+        
+        $pagination = new Pagination([
+            'itemsCount' => $count, 
+            'itemsPerPage' => self::BOOKS_PER_PAGE, 
+            'currentPage' => $currentPage
+        ]);
+        
         
         $data = [
-            'author' => $author, 
+            'pagination' => $pagination, 
             'books' => $books
         ];
         
