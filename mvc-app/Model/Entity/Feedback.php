@@ -2,6 +2,8 @@
 
 namespace Model\Entity;
 
+use Model\Form\FeedbackForm;
+
 class Feedback
 {
     private $id;
@@ -101,6 +103,15 @@ class Feedback
     public function setCreated($created)
     {
         $this->created = $created;
+        
+        return $this;
+    }
+    
+    public function setFromForm(FeedbackForm $form)
+    {
+        foreach ($form as $property => $value) {
+            $this->$property = $value;
+        }
         
         return $this;
     }

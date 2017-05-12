@@ -2,15 +2,20 @@
 
 namespace Model;
 
-use Library\DbConnection;
+use Library\PdoAwareTrait;
+use Model\Entity\Feedback;
 
-class FeedbackModel
+class FeedbackRepository
 {
-    // author => ..., email => ...
-    public function save(array $feedback)
+    use PdoAwareTrait;
+    
+    public function save(Feedback $feedback)
     {
-        $pdo = DbConnection::getInstance()->getPdo();
-        $sth = $pdo->prepare('INSERT INTO feedback VALUES (null, :author, :email, :message, null)');
-        $sth->execute($feedback);
+        $sth = $this->pdo->prepare('INSERT INTO feedback VALUES (null, :author, :email, :message, null)');
+        $sth->execute([
+            'author' => $feedback->getAuthor(),
+            'email' => $feedback->getEmail(),
+            'message' => $feedback->getMessage(),
+        ]);
     }
 }
