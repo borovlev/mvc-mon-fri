@@ -37,4 +37,11 @@ class Request
     {
         return (bool) $this->post;
     }
+    
+    public function getUri()
+    {
+        $uri = explode('?', $this->server['REQUEST_URI']);
+        
+        return $uri[0];
+    }
 }

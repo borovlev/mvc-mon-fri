@@ -8,3 +8,7 @@ body {
 .book-item {
   min-height:550px;
 }
+
+.books-list-table td {
+  text-align: left;
+}

@@ -19,6 +19,12 @@ spl_autoload_register(function($className) {
 
 $request = new \Library\Request();
 
+$isAdminUrl = strpos($request->getUri(), '/admin') === 0;
+
+if ($isAdminUrl) {
+    \Library\Controller::setAdminLayout();
+}
+
 $pdo = new \PDO('mysql: host=localhost; dbname=mvc', 'root', '');
 $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
@@ -32,7 +38,7 @@ $route = $request->get('route', 'default/index'); // $_GET['route']
 // todo: защита от :) если нету слеша в значении
 $route = explode('/', $route);
 
-$controller = 'Controller\\' . ucfirst($route[0]) . 'Controller';
+$controller = 'Controller\\' . ($isAdminUrl ? 'Admin\\' : '') . ucfirst($route[0]) . 'Controller';
 $action = $route[1] . 'Action';
 
 $controller = (new $controller())->setContainer($container); // Controller\DefaultController

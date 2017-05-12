@@ -6,6 +6,13 @@ abstract class Controller
 {
     protected $container;
     
+    private static $layout = 'layout.phtml';
+    
+    public static function setAdminLayout()
+    {
+        self::$layout = 'admin_layout.phtml';
+    }
+    
     public function setContainer(Container $container)
     {
         $this->container = $container;
@@ -22,7 +29,9 @@ abstract class Controller
     public function render($view, array $args = [])
     {
         extract($args);
-        $dir = str_replace(['\\', 'Controller'], '', get_class($this));
+        
+        // todo: cleanup
+        $dir = trim(str_replace(['\\', 'Controller'], [DS, ''], get_class($this)), '/');
         $file = VIEW_DIR . $dir . DS . $view;
         
         if (!file_exists($file)) {
@@ -34,7 +43,7 @@ abstract class Controller
         $content = ob_get_clean();
         
         ob_start();
-        require VIEW_DIR . 'layout.phtml';
+        require VIEW_DIR . self::$layout;
         return ob_get_clean();
     }
 }
