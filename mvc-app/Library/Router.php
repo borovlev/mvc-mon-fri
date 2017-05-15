@@ -75,4 +75,10 @@ class Router
         header("Location: {$to}");
         die;
     }
+    
+    public function currentRouteNameStartsWith($str)
+    {
+        
+    }
+    
 }
