@@ -64,6 +64,11 @@ class Router
        // todo
     }
     
+    public function redirectToRoute($routeName, array $params = array())
+    {
+        // todo: check if exists....
+        $this->redirect($this->getUri($routeName, $params));
+    }
     
     public function redirect($to)
     {
