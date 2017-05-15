@@ -19,21 +19,22 @@ spl_autoload_register(function($className) {
 
 $request = new \Library\Request();
 
+$router = new \Library\Router(ROOT . 'Config' . DS . 'routes.php');
+$router->match($request);
+
+
 $pdo = new \PDO('mysql: host=localhost; dbname=mvc', 'root', '');
 $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
 $container = new \Library\Container();
-$container->set('router', new \Library\Router());
+$container->set('router', $router);
 $container->set('db_connection', $pdo);
 $container->set('repository', (new \Library\RepositoryManager())->setPdo($pdo));
 
-$route = $request->get('route', 'default/index'); // $_GET['route']
+$route = $router->getCurrentRoute();
 
-// todo: защита от :) если нету слеша в значении
-$route = explode('/', $route);
-
-$controller = 'Controller\\' . ucfirst($route[0]) . 'Controller';
-$action = $route[1] . 'Action';
+$controller = 'Controller\\' . $route->controller . 'Controller';
+$action = $route->action . 'Action';
 
 $controller = (new $controller())->setContainer($container); // Controller\DefaultController
 
