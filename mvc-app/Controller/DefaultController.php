@@ -28,7 +28,7 @@ class DefaultController extends Controller
                 $repository->save($feedback);
                 
                 Session::setFlash('Feedback sent');
-                $this->get('router')->redirect('/index.php?route=default/feedback');
+                $this->get('router')->redirectToRoute('feedback_page');
             }
             
             Session::setFlash('Fill the fields properly');

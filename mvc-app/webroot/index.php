@@ -15,36 +15,44 @@ spl_autoload_register(function($className) {
     require_once $file;
 });
 
-\Library\Session::start();
+try {
+    \Library\Session::start();
 
-$request = new \Library\Request();
-
-$isAdminUrl = strpos($request->getUri(), '/admin') === 0;
-
-if ($isAdminUrl) {
-    \Library\Controller::setAdminLayout();
+    $request = new \Library\Request();
+    
+    $router = new \Library\Router(ROOT . 'Config' . DS . 'routes.php');
+    
+    $isAdminUrl = strpos($request->getUri(), '/admin') === 0;
+    
+    if ($isAdminUrl) {
+        \Library\Controller::setAdminLayout();
+    }
+    
+    $pdo = new \PDO('mysql: host=localhost; dbname=mvc', 'root', '');
+    $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+    
+    $container = new \Library\Container();
+    $container->set('router', $router);
+    $container->set('db_connection', $pdo);
+    $container->set('repository', (new \Library\RepositoryManager())->setPdo($pdo));
+    
+    $router->match($request);
+    
+    $route = $router->getCurrentRoute();
+    
+    $controller = 'Controller\\' . $route->controller . 'Controller';
+    $action = $route->action . 'Action';
+    
+    $controller = (new $controller())->setContainer($container); // Controller\DefaultController
+    
+    if (!method_exists($controller, $action)) {
+        throw new Exception("{$action} not found");
+    }
+    
+    echo $controller->$action($request);
+    
+} catch (\Exception $e) {
+    $controller = (new \Controller\ExceptionController)->setContainer($container);
+    echo $controller->handleAction($request, $e);
 }
 
-$pdo = new \PDO('mysql: host=localhost; dbname=mvc', 'root', '');
-$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-$container = new \Library\Container();
-$container->set('router', new \Library\Router());
-$container->set('db_connection', $pdo);
-$container->set('repository', (new \Library\RepositoryManager())->setPdo($pdo));
-
-$route = $request->get('route', 'default/index'); // $_GET['route']
-
-// todo: защита от :) если нету слеша в значении
-$route = explode('/', $route);
-
-$controller = 'Controller\\' . ($isAdminUrl ? 'Admin\\' : '') . ucfirst($route[0]) . 'Controller';
-$action = $route[1] . 'Action';
-
-$controller = (new $controller())->setContainer($container); // Controller\DefaultController
-
-if (!method_exists($controller, $action)) {
-    throw new Exception("{$action} not found");
-}
-
-echo $controller->$action($request);
