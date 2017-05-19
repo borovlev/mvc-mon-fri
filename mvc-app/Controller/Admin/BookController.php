@@ -13,6 +13,8 @@ class BookController extends Controller
     
     public function indexAction(Request $request)
     {
+        $this->checkAccess();
+        
         $currentPage = $request->get('page', 1);
        
         $repository = $this->get('repository')->getRepository('Book');

@@ -13,6 +13,11 @@ abstract class Controller
         self::$layout = 'admin_layout.phtml';
     }
     
+    public static function setDefaultLayout()
+    {
+        self::$layout = 'layout.phtml';
+    }
+    
     public function setContainer(Container $container)
     {
         $this->container = $container;
@@ -23,6 +28,13 @@ abstract class Controller
     public function get($key)
     {
         return $this->container->get($key);
+    }
+    
+    public function checkAccess()
+    {
+        if (!Session::has('user')) {
+            throw new Exception\AccessDeniedException('You are not allowed to access this', 403);
+        }
     }
     
     // todo: make as public static function

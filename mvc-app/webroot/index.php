@@ -19,14 +19,7 @@ try {
     \Library\Session::start();
 
     $request = new \Library\Request();
-    
     $router = new \Library\Router(ROOT . 'Config' . DS . 'routes.php');
-    
-    $isAdminUrl = strpos($request->getUri(), '/admin') === 0;
-    
-    if ($isAdminUrl) {
-        \Library\Controller::setAdminLayout();
-    }
     
     $pdo = new \PDO('mysql: host=localhost; dbname=mvc', 'root', '');
     $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
@@ -51,6 +44,10 @@ try {
     
     echo $controller->$action($request);
     
+} catch (\Library\Exception\AccessDeniedException $e) {
+    $controller = (new \Controller\ExceptionController)->setContainer($container);
+    \Library\Controller::setDefaultLayout();
+    echo $controller->handleAction($request, $e);
 } catch (\Exception $e) {
     $controller = (new \Controller\ExceptionController)->setContainer($container);
     echo $controller->handleAction($request, $e);
