@@ -4,6 +4,10 @@ error_reporting(E_ALL);
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', __DIR__ . DS . '..' . DS); // ../
 define('VIEW_DIR', ROOT . 'View' . DS);
+define('CONF_DIR', ROOT . 'Config' . DS);
+define('VENDOR_DIR', ROOT . 'vendor' . DS);
+
+require_once VENDOR_DIR . 'autoload.php';
 
 spl_autoload_register(function($className) {
     $file = ROOT . str_replace('\\', DS, "{$className}.php");
@@ -17,11 +21,20 @@ spl_autoload_register(function($className) {
 
 try {
     \Library\Session::start();
+    
+    $config = new \Library\Config();
 
     $request = new \Library\Request();
     $router = new \Library\Router(ROOT . 'Config' . DS . 'routes.php');
     
-    $pdo = new \PDO('mysql: host=localhost; dbname=mvc', 'root', '');
+    $dbConfig = [
+        'host' => $config->getParameter('database_host'),
+        'user' => $config->getParameter('database_user'),
+        'dbname' => $config->getParameter('database_name'),
+        'pass' => $config->getParameter('database_password'),
+    ];
+   
+    $pdo = new \PDO('mysql: host=' . $dbConfig['host'] . '; dbname=' . $dbConfig['dbname'], $dbConfig['user'], $dbConfig['pass']);
     $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     
     $container = new \Library\Container();

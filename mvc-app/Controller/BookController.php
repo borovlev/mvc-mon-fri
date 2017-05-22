@@ -13,8 +13,6 @@ class BookController extends Controller
     
     public function indexAction(Request $request)
     {
-        throw new \Exception('test error');
-        
         $currentPage = $request->get('page', 1);
        
         $repository = $this->get('repository')->getRepository('Book');
