@@ -11,6 +11,8 @@ return  array(
     'feedback_page' => new Route('/feedback', 'Default', 'feedback'),
     'login' => new Route('/login', 'Security', 'login'),
     'logout' => new Route('/logout', 'Security', 'logout'),
+    'cart' => new Route('/cart', 'Cart', 'index'),
+    'cart_add' => new Route('/cart/add/{id}', 'Cart', 'add', array('id' => '[0-9]+')),
     
     
     'admin_default' => new Route('/admin', 'Admin\\Default', 'index'),
