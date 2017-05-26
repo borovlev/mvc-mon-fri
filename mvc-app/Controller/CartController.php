@@ -13,13 +13,7 @@ class CartController extends Controller
 {
     public function indexAction()
     {
-        $cartCookie = Cookie::get('cart');
-        
-        if (empty(unserialize($cartCookie))) {
-            $cart = [];
-        } else {
-            $cart = unserialize($cartCookie);
-        }
+        $cart = $this->get('cart_service')->getCart();
         
         $ids = array_values(array_unique($cart));
         $cartAmounts = array_count_values($cart);
@@ -35,12 +29,7 @@ class CartController extends Controller
     public function addAction(Request $request)
     {
         $id = $request->get('id');
-        $cartCookie = Cookie::get('cart');
-        if (empty(unserialize($cartCookie))) {
-            $cart = [];
-        } else {
-            $cart = unserialize($cartCookie);
-        }
+        $cart = $this->get('cart_service')->getCart();
         
         /*
             todo:

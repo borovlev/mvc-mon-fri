@@ -21,6 +21,7 @@ spl_autoload_register(function($className) {
 
 try {
     \Library\Session::start();
+    $cartService = new \Library\CartService();
     
     $config = new \Library\Config();
 
@@ -41,6 +42,7 @@ try {
     $container->set('router', $router);
     $container->set('db_connection', $pdo);
     $container->set('repository', (new \Library\RepositoryManager())->setPdo($pdo));
+    $container->set('cart_service', $cartService);
     
     $router->match($request);
     

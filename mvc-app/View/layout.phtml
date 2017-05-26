@@ -37,7 +37,7 @@
             <li class="active"><a href="/">Home</a></li>
             <li><a href="/books">Books</a></li>
             <li><a href="<?=$this->get('router')->getUri('feedback_page')?>">Feedback</a></li>
-            <li><a href="/cart">Cart</a></li>
+            <li><a href="/cart">Cart (<?=$this->get('cart_service')->getCount()?>)</a></li>
             <?php if (\Library\Session::has('user')) : ?>
               <li><a href="/logout">Logout (<?=\Library\Session::get('user')?>)</a></li> 
             <?php else: ?> 
