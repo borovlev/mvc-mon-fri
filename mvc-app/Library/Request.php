@@ -1,5 +1,7 @@
 <?php
 
+namespace Library;
+
 class Request
 {
     private $get;
@@ -34,5 +36,18 @@ class Request
     public function isPost()
     {
         return (bool) $this->post;
+    }
+    
+    public function getUri()
+    {
+        $uri = explode('?', $this->server['REQUEST_URI']);
+        $uri = $uri[0];
+        return $uri;
+    }
+    
+     public function mergeGet($newGet)
+    {
+        $this->get += $newGet;
+        $_GET += $newGet;
     }
 }

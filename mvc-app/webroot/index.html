@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+a:link {
+    color: green;
+    background-color: transparent;
+    text-decoration: none;
+}
+a:visited {
+    color: pink;
+    background-color: transparent;
+    text-decoration: none;
+}
+a:hover {
+    color: red;
+    background-color: transparent;
+    text-decoration: underline;
+}
+a:active {
+    color: yellow;
+    background-color: transparent;
+    text-decoration: underline;
+}
+</style>
+
+
+</head>
+
+<body>
+    
+    <div onclick="this.style.display = 'none'">
+        text
+    </div>
+    
+    <form id='form' onsubmit="return isValid();">
+        <input type="text" name="username" id='username' value='123'/>
+        <input type="password" name="password" id='password' />
+        <input type="password" name="password_confirm" id='password_confirm' />
+        
+        <input type="submit" value="Submit"/>
+    </form>
+    
+    <script src="/js/scripts.js"></script>
+</body>
+</html>
