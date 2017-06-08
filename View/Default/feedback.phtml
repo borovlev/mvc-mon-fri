@@ -1,0 +1,10 @@
+<h1>Feedback</h1>
+
+<script src="/js/scripts.js"></script>
+
+<form method='post' id="FeedbackForm" onsubmit="return isValid();">
+    <input class="form-control" type="text" name="author" id="name" value="<?=$form->author ?>"/><br>
+    <input class="form-control"  type="email" name="email" id="email" value="<?=$form->email ?>"/><br>
+    <textarea class="form-control"  name="message" id="message" ><?=$form->message ?></textarea><br>
+    <button class="btn btn-primary">Go</button>
+</form>
